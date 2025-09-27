@@ -30,7 +30,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
     private lateinit var notesViewModel: NoteViewModel
     private lateinit var noteAdapter: NoteAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         homeBinding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -83,9 +87,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
     }
 
     private fun searchNote(query: String?) {
-        val searchQuery = "%$query"
+        val searchQuery = "%$query%"
 
-        notesViewModel.searchNote(searchQuery).observe(this) { list ->
+        notesViewModel.searchNote(searchQuery).observe(viewLifecycleOwner) { list ->
             noteAdapter.differ.submitList(list)
         }
     }
@@ -95,8 +99,17 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) {
-            searchNote((newText))
+//        if (newText != null) {
+//            searchNote((newText))
+//        }
+        if (!newText.isNullOrEmpty()) {
+            // Run search when user types something
+            searchNote(newText)
+        } else {
+            // Show all notes again (or clear list, based on requirement)
+            notesViewModel.getAllNotes().observe(viewLifecycleOwner) { list ->
+                noteAdapter.differ.submitList(list)
+            }
         }
         return true
     }

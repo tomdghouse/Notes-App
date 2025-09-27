@@ -71,7 +71,6 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note), MenuProvider {
                 saveNote(addNoteView)
                 true
             }
-
             else -> false
         }
     }

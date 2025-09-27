@@ -28,6 +28,5 @@ abstract class NoteDatabase : RoomDatabase() {
                 NoteDatabase::class.java,
                 "note_db"
             ).build()
-
     }
 }

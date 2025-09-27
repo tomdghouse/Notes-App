@@ -19,9 +19,10 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
             oldItem: Note,
             newItem: Note
         ): Boolean {
-            return oldItem.id == newItem.id &&
-                    oldItem.noteTitle == newItem.noteTitle &&
-                    oldItem.noteDesc == newItem.noteDesc
+            return oldItem.id == newItem.id
+//                    &&
+//                    oldItem.noteTitle == newItem.noteTitle &&
+//                    oldItem.noteDesc == newItem.noteDesc
         }
 
         override fun areContentsTheSame(
@@ -33,11 +34,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     }
     val differ = AsyncListDiffer(this, differCallback)
 
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): NoteViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
             NoteLayoutBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -47,10 +44,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         )
     }
 
-    override fun onBindViewHolder(
-        holder: NoteViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val currentNote = differ.currentList[position]
 
         holder.itembinding.noteTitle.text = currentNote.noteTitle
@@ -66,5 +60,4 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
-
 }
